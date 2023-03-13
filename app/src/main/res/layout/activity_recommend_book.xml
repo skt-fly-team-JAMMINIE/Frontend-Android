@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btn_hamburger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -47,7 +47,7 @@
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/playlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -67,8 +67,8 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"></TextView>
+        app:layout_constraintStart_toStartOf="@+id/playlist"
+        app:layout_constraintTop_toTopOf="@+id/playlist"></TextView>
 
     <TextView
         android:id="@+id/text_content"
@@ -78,7 +78,7 @@
         android:text="레바논 전쟁 실화를 바탕으로 탄생한 '용서의 정원'이야기는 전쟁\n 으로 산산조각 난 조국의 비극을 치유하고 서로를 은시하는...."
         android:textColor="@color/white"
         android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/playlist"
         app:layout_constraintTop_toBottomOf="@+id/text_title"></TextView>
 
     <ImageButton

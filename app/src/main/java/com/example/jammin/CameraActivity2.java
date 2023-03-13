@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,7 @@ import android.hardware.Camera;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -63,10 +65,14 @@ public class CameraActivity2 extends AppCompatActivity implements SurfaceHolder.
             .build();
     GetImages serviceApi = retrofit.create(GetImages.class);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_tree);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("image_tree", MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
 
         adot = findViewById(R.id.imageView2);
         bounding = findViewById(R.id.bounding2);
@@ -81,18 +87,27 @@ public class CameraActivity2 extends AppCompatActivity implements SurfaceHolder.
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 //FileOutputStream outputStream = null;
                 //str = String.format("/sdcard/%d.jpg", System.currentTimeMillis());
-                Toast.makeText(getApplicationContext(), "Picture Saved",
-                        Toast.LENGTH_LONG).show();
-                Log.d("Picture",bytes.toString());
+//                Toast.makeText(getApplicationContext(), "Picture Saved",
+//                        Toast.LENGTH_LONG).show();
+//                Log.d("Picture",bytes.toString());
                 refreshCamera();
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
+                //이미지 회전
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                //이미지 Bitmap -> String
+                byte[] bytes2 = baos.toByteArray();
+                String temp2 = Base64.encodeToString(bytes2, Base64.DEFAULT);
+
+                //이미지 보고서 페이지에 전송
+                editor.putString("image_tree", temp2); // key,value 형식으로 저장
+                editor.commit();
 
                 RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), baos.toByteArray());
 

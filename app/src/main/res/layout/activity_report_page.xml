@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DBEDF5"
+    tools:context=".ReportPage">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+
+            android:visibility="invisible"
+            android:id="@+id/report_status_bar_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/status_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 상단 메뉴명 -->
+        <ImageView
+            android:id="@+id/report_page_back_iv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/back_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_status_bar_iv" />
+
+        <TextView
+            android:id="@+id/report_page_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_page_back_iv"
+            app:layout_constraintStart_toEndOf="@id/report_page_back_iv"
+            app:layout_constraintTop_toTopOf="@id/report_page_back_iv" />
+
+        <View
+            android:id="@+id/report_list_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="15dp"
+            android:background="#AFC2D5"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/report_page_back_iv" />
+
+        <ImageView
+            android:id="@+id/report_draw_title_bg_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/report_rv_date_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_list_line_view" />
+
+        <TextView
+            android:id="@+id/report_drawing_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HTP 그림분석 결과"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_draw_title_bg_iv"
+            app:layout_constraintEnd_toEndOf="@id/report_draw_title_bg_iv"
+            app:layout_constraintStart_toStartOf="@id/report_draw_title_bg_iv"
+            app:layout_constraintTop_toTopOf="@id/report_draw_title_bg_iv" />
+
+
+        <ImageView
+            android:id="@+id/report_list_icon_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/cloud1_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/report_cloud44"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:src="@drawable/cloud1_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/report_chat_title_bg_iv" />
+
+        <ImageView
+            android:id="@+id/report_cloud2_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="100dp"
+            android:src="@drawable/cloud2_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/report_cloud3_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/cloud3_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <ImageView
+            android:id="@+id/cloud33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/cloud3_img"
+            app:layout_constraintBottom_toTopOf="@id/report_chat_state_range_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/report_chat_title_bg_iv" />
+
+
+        <ImageView
+            android:id="@+id/report_house_iv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/htp_house_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_draw_title_bg_iv" />
+
+        <ImageView
+            android:id="@+id/report_tree_iv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/htp_tree_img"
+            app:layout_constraintStart_toStartOf="@id/report_house_iv"
+            app:layout_constraintTop_toBottomOf="@id/report_house_iv" />
+
+        <ImageView
+            android:id="@+id/report_person_iv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/htp_person_img"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_tree_iv" />
+
+        <TextView
+            android:id="@+id/report_describe_house_tv"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="예시 text1"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/report_house_iv"
+            app:layout_constraintStart_toEndOf="@id/report_house_iv"
+            app:layout_constraintTop_toTopOf="@id/report_house_iv" />
+
+        <TextView
+            android:id="@+id/report_describe_tree_tv"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="예시 text2"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/report_tree_iv"
+            app:layout_constraintStart_toEndOf="@id/report_tree_iv"
+            app:layout_constraintTop_toTopOf="@id/report_tree_iv" />
+
+        <TextView
+            android:id="@+id/report_describe_human_tv"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="예시 text3"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/report_person_iv"
+            app:layout_constraintStart_toEndOf="@id/report_person_iv"
+            app:layout_constraintTop_toTopOf="@id/report_person_iv" />
+
+
+        <View
+            android:id="@+id/report_list_line2_view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="25dp"
+            android:background="#AFC2D5"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/report_person_iv" />
+
+        <ImageView
+            android:id="@+id/report_draw_describe_bg_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/report_rv_date_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_list_line2_view" />
+
+        <TextView
+            android:id="@+id/report_drawing_describe_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HTP 그림분석 결과"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_draw_describe_bg_iv"
+            app:layout_constraintEnd_toEndOf="@id/report_draw_describe_bg_iv"
+            app:layout_constraintStart_toStartOf="@id/report_draw_describe_bg_iv"
+            app:layout_constraintTop_toTopOf="@id/report_draw_describe_bg_iv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/report_drawing_total_describe_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/round_corner_rectangle"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_drawing_describe_tv">
+
+
+            <TextView
+                android:id="@+id/report_drawing_total_describe_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="금쪽이의 그림에선 어쩌구한 특징이 보입니다. Woo woo woo woo ooh Woo woo woo woo Stay in the middle Like you a little Don't want no riddle 말해줘 say it back Oh say it ditto 아침은 너무 멀어 So say it ditto 훌쩍 커버렸어 함께한 기억처럼 널 보는 내 마음은 어느새 여름 지나 가을 기다렸지 all this time Do you want somebody Like I want somebody 날 보고 웃었지만 Do you think about me now yeah All the time yeah All the time I got no time to lose"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:id="@+id/report_list_line3_view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="25dp"
+            android:background="#AFC2D5"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/report_drawing_total_describe_cl" />
+
+        <TextView
+            android:id="@+id/report_graph_cate1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="자기개념 - "
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_list_line3_view" />
+
+        <TextView
+            android:id="@+id/report_chat_fuzzy1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6175FE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_graph_cate1_tv"
+            app:layout_constraintStart_toEndOf="@id/report_graph_cate1_tv"
+            app:layout_constraintTop_toTopOf="@id/report_graph_cate1_tv" />
+
+        <ProgressBar
+            android:id="@+id/report_draw_cate1_pb"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/progress_bar_background"
+            android:indeterminate="false"
+            android:max="100"
+            android:padding="5dp"
+            android:progress="1"
+            android:progressDrawable="@drawable/curved_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_graph_cate1_tv" />
+
+
+        <TextView
+            android:id="@+id/report_graph_cate2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="정서적 안정성 - "
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_draw_cate1_pb" />
+
+        <TextView
+            android:id="@+id/report_chat_fuzzy2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6175FE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_graph_cate2_tv"
+            app:layout_constraintStart_toEndOf="@id/report_graph_cate2_tv"
+            app:layout_constraintTop_toTopOf="@id/report_graph_cate2_tv" />
+
+        <ProgressBar
+            android:id="@+id/report_draw_cate2_pb"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/progress_bar_background"
+            android:indeterminate="false"
+            android:max="100"
+            android:padding="5dp"
+            android:progress="1"
+            android:progressDrawable="@drawable/curved_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_graph_cate2_tv" />
+
+        <TextView
+            android:id="@+id/report_graph_cate3_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="대인관계 - "
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_draw_cate2_pb" />
+
+
+        <TextView
+            android:id="@+id/report_chat_fuzzy3_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6175FE"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_graph_cate3_tv"
+            app:layout_constraintStart_toEndOf="@id/report_graph_cate3_tv"
+            app:layout_constraintTop_toTopOf="@id/report_graph_cate3_tv" />
+
+
+        <ProgressBar
+            android:id="@+id/report_draw_cate3_pb"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/progress_bar_background"
+            android:indeterminate="false"
+            android:max="100"
+            android:padding="5dp"
+            android:progress="1"
+            android:progressDrawable="@drawable/curved_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_graph_cate3_tv" />
+
+
+        <View
+            android:id="@+id/report_list_line4_view"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_marginTop="25dp"
+            android:background="#AFC2D5"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/report_draw_cate3_pb" />
+
+        <ImageView
+            android:id="@+id/report_chat_title_bg_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/report_rv_date_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_list_line4_view" />
+
+        <TextView
+            android:id="@+id/report_chatbot_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="챗봇 감성분석 결과"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/report_chat_title_bg_iv"
+            app:layout_constraintEnd_toEndOf="@id/report_chat_title_bg_iv"
+            app:layout_constraintStart_toStartOf="@id/report_chat_title_bg_iv"
+            app:layout_constraintTop_toTopOf="@id/report_chat_title_bg_iv" />
+
+        <ImageView
+            android:id="@+id/report_chat_state1_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/aidot_status_1"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/report_chat_state3_iv"
+            app:layout_constraintEnd_toStartOf="@id/report_chat_state2_iv"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/report_chat_state2_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/aibot_status_2"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/report_chat_state3_iv"
+            app:layout_constraintEnd_toStartOf="@id/report_chat_state3_iv"
+            app:layout_constraintStart_toEndOf="@id/report_chat_state1_iv" />
+
+        <ImageView
+            android:id="@+id/report_chat_state3_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/aidot_status_3"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/report_chat_state_range_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_chat_title_bg_iv" />
+
+        <ImageView
+            android:id="@+id/report_chat_state4_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/aidot_status_4"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/report_chat_state3_iv"
+            app:layout_constraintEnd_toStartOf="@id/report_chat_state5_iv"
+            app:layout_constraintStart_toEndOf="@id/report_chat_state3_iv" />
+
+        <ImageView
+            android:id="@+id/report_chat_state5_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/aidot_status_5"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/report_chat_state3_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/report_chat_state4_iv" />
+
+        <ImageView
+            android:id="@+id/report_chat_state_range_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/chat_state_range"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_chat_state3_iv" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/report_chat_total_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginBottom="100dp"
+            android:background="@drawable/round_corner_rectangle"
+            android:padding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/report_chat_state_range_iv">
+
+            <TextView
+                android:id="@+id/report_chat_total_keyword_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="챗봇 대화의 주요 키워드는 "
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/report_chatbot_describe1_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/report_chat_total_keyword_tv" />
+
+            <TextView
+                android:id="@+id/report_chatbot_describe2_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/report_chatbot_describe1_tv" />
+
+            <TextView
+                android:id="@+id/report_chatbot_describe3_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="150dp"
+                app:layout_constraintTop_toBottomOf="@id/report_chatbot_describe2_tv" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/report_chat_total_cl" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -56,6 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"></ImageView>
 
     <ImageButton
+        android:id="@+id/btn_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="60dp"

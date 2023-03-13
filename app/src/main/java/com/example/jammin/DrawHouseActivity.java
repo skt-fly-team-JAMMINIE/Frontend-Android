@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -14,11 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jammin.utils_draw.GetImages;
+import com.example.jammin.utils_draw.GetVoice;
 import com.example.jammin.utils_draw.Images;
 import com.example.jammin.utils_draw.ImagesResponse;
+import com.example.jammin.utils_draw.ModelResponse;
+import com.example.jammin.utils_draw.VoiceResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Base64;
 
 import retrofit2.Call;
@@ -34,10 +42,18 @@ public class DrawHouseActivity extends Activity {
     //http://34.64.63.93:8000
     //http://127.0.0.1:8000
     //http://10.0.2.2:8000
+
     Retrofit retrofit = new Retrofit.Builder().baseUrl("http://34.64.220.65:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+    Retrofit retrofit2 = new Retrofit.Builder().baseUrl("http://34.64.152.40:8000")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
     GetImages serviceApi = retrofit.create(GetImages.class);
+    GetVoice ttsApi = retrofit2.create(GetVoice.class);
+
+    private MediaPlayer mediaPlayer = new MediaPlayer();
 
 
     ImageButton btn_ok, btn_no, btn_ready, btn_camera;
@@ -57,17 +73,15 @@ public class DrawHouseActivity extends Activity {
         adot = findViewById(R.id.adot);
         background = findViewById(R.id.background);
 
-        //보낼 이미지 정의 후 보내기
-//        String house_img = "house_img";
-//        String tree_img = "tree_img";
-//        String person_img = "person_img";
-//        Images images = new Images(house_img, tree_img, person_img);
-//        postImages(images);
+        //첫 tts
+        TTS("hello");
+
 
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 textbox.setText("먼저, 종이 3장이랑\n연필, 지우개를 준비해줘!");
+                TTS("ready");
                 adot.setImageResource(R.drawable.adot_book);
                 btn_ready.setVisibility(View.VISIBLE);
                 btn_ok.setVisibility(View.INVISIBLE);
@@ -96,6 +110,7 @@ public class DrawHouseActivity extends Activity {
                 textbox.setText("종이를 가로로 놓고\n" +
                         "집을 그려보자! 다 그리면\n" +
                         "카메라 버튼을 눌러줘!");
+                TTS("house");
                 background.setBackgroundResource(R.drawable.background_house);
                 adot.setImageResource(R.drawable.adot_drawing);
                 btn_ready.setVisibility(View.INVISIBLE);
@@ -112,43 +127,6 @@ public class DrawHouseActivity extends Activity {
                 startActivity(intent);
 
 
-
-                //*******///
-                //이미지 전송 코드
-//                File imagefile = new File("res/drawable/house.jpg");
-//                RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), baos.toByteArray());
-//                MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", imagefile.getName(), requestBody);
-//
-//                Call<UploadImageResponse> call = serviceApi.UploadImage(fileToUpload);
-//                Log.d("Yeji", fileToUpload.toString());
-//                // 요청 실행 및 응답 처리
-//                call.enqueue(new Callback<UploadImageResponse>() {
-//                    @Override
-//                    public void onResponse(Call<UploadImageResponse> call, Response<UploadImageResponse> response) {
-//                         //응답 본문을 문자열로 변환하여 출력
-//                        String responseString = response.body().toString();
-//                        Log.d("Yeji", "Response: " + responseString);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<UploadImageResponse> call, Throwable t) {
-//                        t.printStackTrace();
-//                    }
-//                });
-                ////*********///
-
-//                serviceApi.UploadImage(fileToUpload).enqueue(new Callback<UploadImageResponse>() {
-//                    @Override
-//                    public void onResponse(Call<UploadImageResponse> call, Response<UploadImageResponse> response) {
-//                        UploadImageResponse result = response.body();
-//                        Log.d("Onresponse", result.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<UploadImageResponse> call, Throwable t) {
-//
-//                    }
-//                });
             }
         });
 
@@ -177,6 +155,47 @@ public class DrawHouseActivity extends Activity {
         ByteArrayInputStream stream = new ByteArrayInputStream(byteArray);
         bitmap = BitmapFactory.decodeStream(stream);
         return bitmap;
+    }
+
+    public void TTS(String type) {
+        Call<VoiceResponse> tts_call = ttsApi.TTSVoice(type);
+        tts_call.enqueue(new Callback<VoiceResponse>() {
+            @Override
+            public void onResponse(Call<VoiceResponse> call, Response<VoiceResponse> response) {
+                String base64String = response.body().sentence;
+                byte[] base64Bytes = android.util.Base64.decode(base64String.getBytes(), android.util.Base64.DEFAULT);
+                playMp3(base64Bytes);
+                Log.d("tts", base64Bytes.toString());
+            }
+
+            @Override
+            public void onFailure(Call<VoiceResponse> call, Throwable t) {
+                Log.d("tts", t.toString());
+            }
+        });
+    }
+
+    public void playMp3(byte[] mp3SoundByteArray) {
+        try {
+            // create temp file that will hold byte array
+            File tempMp3 = File.createTempFile("kurchina", "mp3", getCacheDir());
+            tempMp3.deleteOnExit();
+            FileOutputStream fos = new FileOutputStream(tempMp3);
+            fos.write(mp3SoundByteArray);
+            fos.close();
+
+            // resetting mediaplayer instance to evade problems
+            mediaPlayer.reset();
+
+            FileInputStream fis = new FileInputStream(tempMp3);
+            mediaPlayer.setDataSource(fis.getFD());
+
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException ex) {
+            String s = ex.toString();
+            ex.printStackTrace();
+        }
     }
 
 

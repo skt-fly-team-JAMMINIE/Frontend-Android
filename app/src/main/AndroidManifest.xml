@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.jammin"
-    android:versionCode="1" android:versionName="1.0"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:versionCode="1"
+    android:versionName="1.0">
+    <!-- STT에 대한 권한(사용자의 음성 입력 마이크 통해 녹음 + 녹음된 데이터 서버에 전송) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jammin"
-        tools:targetApi="31"
         android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@xml/network_security_config">
+        tools:targetApi="31">
+        <activity
+            android:name=".Input_pwd"
+            android:exported="false" />
+        <activity
+            android:name=".CameraActivity3"
+            android:exported="true"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".DrawHouseActivity"
             android:exported="true">
+
+        </activity>
+        <activity android:name=".DrawTreeActivity" />
+        <activity android:name=".DrawPersonActivity" />
+        <activity android:name=".CameraActivity" />
+        <activity android:name=".CameraActivity2" />
+        <!--        <activity android:name=".CameraActivity3" />-->
+        <activity
+            android:name=".RecommendActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".MenuActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".AidotChatbot"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity"></activity>
-<!--        <activity android:name=".DrawHouseActivity"></activity>-->
-        <activity android:name=".DrawTreeActivity"></activity>
-        <activity android:name=".DrawPersonActivity"></activity>
-        <activity android:name=".CameraActivity"></activity>
-        <activity android:name=".CameraActivity2"></activity>
-        <activity android:name=".CameraActivity3"></activity>
-        <activity android:name=".RecommendActivity"></activity>
-    </application>
 
-    <!--STT에 대한 권한(사용자의 음성 입력 마이크 통해 녹음 + 녹음된 데이터 서버에 전송)-->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    
-    <!--카메라 권한-->
-    <uses-permission android:name="android.permission.CAMERA" />
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+        </activity>
+        <activity android:name=".ReportPage" />
+        <activity
+            android:name=".ReportList"
+            android:exported="true">
+
+
+
+        </activity>
+
+        <activity android:name=".LoadingDialog_chat"
+            android:exported="true">
+
+        </activity>
+    </application>
 
 </manifest>

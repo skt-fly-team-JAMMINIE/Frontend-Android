@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.hardware.Camera;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -56,6 +58,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     SurfaceHolder surfaceHolder;
     boolean previewing = false;
 
+
     //HTPback 주소 쓰기
     Retrofit retrofit = new Retrofit.Builder().baseUrl("http://34.64.220.65:8000")
             .addConverterFactory(GsonConverterFactory.create())
@@ -66,6 +69,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        SharedPreferences sharedPreferences = getSharedPreferences("image_house", MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
 
         adot = findViewById(R.id.imageView);
         bounding = findViewById(R.id.bounding);
@@ -80,8 +85,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 //FileOutputStream outputStream = null;
                 //str = String.format("/sdcard/%d.jpg", System.currentTimeMillis());
-                Toast.makeText(getApplicationContext(), "Picture Saved",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Picture Saved",
+//                        Toast.LENGTH_LONG).show();
                 Log.d("Yeji", bytes.toString());
                 refreshCamera();
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -94,10 +99,19 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
+                //이미지 Bitmap -> String
+                byte[] bytes1 = baos.toByteArray();
+                String temp1 = Base64.encodeToString(bytes1, Base64.DEFAULT);
+
+                //이미지 보고서 페이지에 전송
+                editor.putString("image_house", temp1); // key,value 형식으로 저장
+                editor.commit();
+
                 RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), baos.toByteArray());
+                Log.d("bytearray", baos.toByteArray().toString());
 
                 MultipartBody.Part fileToUploadhouse = MultipartBody.Part.createFormData("image", "image_house.jpg", requestBody);
-                Log.d("Yeji", bytes.toString());
+
                 Call<UploadImageResponse> call = serviceApi.UploadHouseImage(fileToUploadhouse);
                 // 요청 실행 및 응답 처리
                 call.enqueue(new Callback<UploadImageResponse>() {

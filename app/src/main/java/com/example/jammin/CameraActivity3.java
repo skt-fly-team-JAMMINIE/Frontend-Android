@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +18,7 @@ import android.hardware.Camera;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -37,6 +41,7 @@ import com.example.jammin.utils_draw.UploadImageResponse;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,20 +60,34 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
     //CameraDevice camera;
     String str;
 
+    LoadingDialog loadingDialog;
+
     SurfaceHolder surfaceHolder;
     boolean previewing = false;
 
+    //타임아웃 시간 설정
+    OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+            .connectTimeout(1000000, TimeUnit.SECONDS)
+            .readTimeout(1000000, TimeUnit.SECONDS)
+            .writeTimeout(1000000, TimeUnit.SECONDS)
+            .build();
+
     //HTPback 주소 쓰기
-    Retrofit retrofit = new Retrofit.Builder().baseUrl("http://34.64.220.65:8000")
+    private final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://34.64.220.65:8000")
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     GetImages serviceApi = retrofit.create(GetImages.class);
     CallModel CallmodelApi = retrofit.create(CallModel.class);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_tree);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("image_person", MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
 
         adot = findViewById(R.id.imageView2);
         bounding = findViewById(R.id.bounding2);
@@ -76,6 +95,7 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
         btn_camera = findViewById(R.id.btn_camera3);
         cameraSurfaceView = findViewById(R.id.surfaceView2);
         Camera.PictureCallback jpegCallback;
+        loadingDialog = new LoadingDialog(this);
 
         textbox.setText("사람 그림을 찍어줘");
 
@@ -85,11 +105,12 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
             public void onPictureTaken(byte[] bytes, Camera camera) {
                 //FileOutputStream outputStream = null;
                 //str = String.format("/sdcard/%d.jpg", System.currentTimeMillis());
-                Toast.makeText(getApplicationContext(), "Picture Saved",
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Picture Saved",
+//                        Toast.LENGTH_LONG).show();
                 Log.d("Picture",bytes.toString());
                 refreshCamera();
                 Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
 
                 //이미지회전
                 Matrix matrix = new Matrix();
@@ -98,6 +119,14 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                //이미지 Bitmap -> String
+                byte[] bytes3 = baos.toByteArray();
+                String temp3 = Base64.encodeToString(bytes3, Base64.DEFAULT);
+
+                //이미지 보고서 페이지에 전송
+                editor.putString("image_person", temp3); // key,value 형식으로 저장
+                editor.commit();
 
                 RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), baos.toByteArray());
                 MultipartBody.Part fileToUploadperson = MultipartBody.Part.createFormData("image", "image_person.jpg", requestBody);
@@ -113,18 +142,26 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
 
                         Call<ModelResponse> model_call = CallmodelApi.CallModel(1);
                         //1. 잠시 기다려줘 화면
+                        loadingDialog.show();
+
                         //2. Intent하기(대화시작)
                         model_call.enqueue(new Callback<ModelResponse>() {
                             @Override
                             public void onResponse(Call<ModelResponse> call, Response<ModelResponse> response) {
-                                Log.d("Yeji", response.toString());
+                                Log.d("Yeji", response.body().result);
                                 //Intent하기
+                                //Intent intent = new Intent(getApplicationContext(), AidotChatbot.class);
+                                Intent intent = new Intent(getApplicationContext(), ReportList.class);
+                                startActivity(intent);
+                                loadingDialog.dismiss();
                             }
 
                             @Override
                             public void onFailure(Call<ModelResponse> call, Throwable t) {
                                 Log.d("Yeji", "모델부르기실패");
                                 //Intent하기
+//                                Intent intent = new Intent(getApplicationContext(), AidotChatbot.class);
+//                                startActivity(intent);
                             }
                         });
                     }
@@ -140,11 +177,12 @@ public class CameraActivity3 extends AppCompatActivity implements SurfaceHolder.
             }
         };
 
-        btn_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                camera.takePicture(null, null, jpegCallback);
-            }
+        //            @Override
+//            public void onClick(View view) {
+//                camera.takePicture(null, null, jpegCallback);
+//            }
+        btn_camera.setOnClickListener(view -> {
+            camera.takePicture(null, null, jpegCallback);
         });
 
         getWindow().setFormat(PixelFormat.UNKNOWN);

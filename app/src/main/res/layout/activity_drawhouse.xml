@@ -31,7 +31,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="안녕, 금쪽이!\n나랑 그림 그려볼래?\n재미있을 거야!"
+        android:text="안녕!\n나랑 그림 그려볼래?\n재미있을 거야!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#000000"
